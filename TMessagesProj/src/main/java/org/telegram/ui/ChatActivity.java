@@ -461,6 +461,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private HintView emojiHintTextView;
     private HintView mediaBanTooltip;
     private HintView scheduledOrNoSoundHint;
+    private HintView2 bottomOverlayStartButtonTooltip;
     private boolean scheduledOrNoSoundHintShown;
     private HintView scheduledHint;
     private boolean scheduledHintShown;
@@ -3284,6 +3285,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         aspectRatioFrameLayout = null;
         videoTextureView = null;
         mediaBanTooltip = null;
+        bottomOverlayStartButtonTooltip = null;
         noSoundHintView = null;
         forwardHintView = null;
         checksHintView = null;
@@ -8001,6 +8003,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         bottomOverlayChatText.setOnClickListener(view -> {
             if (getParentActivity() == null || pullingDownOffset != 0) {
                 return;
+            }
+            if (bottomOverlayStartButtonTooltip != null && bottomOverlayStartButtonTooltip.shown()) {
+                bottomOverlayStartButtonTooltip.hide();
             }
             if (chatMode == MODE_SAVED) {
                 Bundle args = new Bundle();
@@ -17228,6 +17233,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (hashtagSearchTabs != null) {
                 hashtagSearchTabs.setTranslationY(0);
             }
+            if (bottomOverlayStartButtonTooltip != null) {
+                bottomOverlayStartButtonTooltip.setTranslationY(0);
+            }
             emptyViewContainer.setTranslationY(0);
             progressView.setTranslationY(0);
             contentPanTranslation = 0;
@@ -25206,6 +25214,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 //                bottomOverlayStartButton.setText(LocaleController.getString(R.string.BotStart));
                 if (bottomOverlayStartButton != null) {
                     bottomOverlayStartButton.setVisibility(View.VISIBLE);
+                    if (bottomOverlayStartButtonTooltip != null) {
+                        bottomOverlayStartButtonTooltip.show();
+                    }
                 }
                 bottomOverlayChatText.setVisibility(View.GONE);
                 chatActivityEnterView.hidePopup(false);
@@ -25398,6 +25409,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     chatActivityEnterView.setVisibility(View.INVISIBLE);
                 } else {
                     bottomOverlayChat.setVisibility(View.INVISIBLE);
+                    if (bottomOverlayStartButtonTooltip != null && bottomOverlayStartButtonTooltip.shown()) {
+                        bottomOverlayStartButtonTooltip.hide(false);
+                    }
                     chatActivityEnterView.setVisibility(View.VISIBLE);
                 }
             }
